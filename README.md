@@ -64,3 +64,9 @@ Le `package.json` à la racine définit d'autres scripts utiles orchestrés par 
   ```
 
 Consultez le fichier `turbo.json` et les `package.json` des workspaces individuels pour plus de détails sur la configuration des tâches.
+
+### 4. Commandes pour le mobile
+- **Lancdr le serveur mobile :**
+  ```bash
+    npx expo start
+  ```
