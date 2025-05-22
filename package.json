@@ -1,0 +1,29 @@
+{
+  "name": "cineverse-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Monorepo for the Cineverse project",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "clean": "turbo run clean && rimraf .turbo"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "prettier": "latest",
+    "prisma": "^6.8.2",
+    "rimraf": "^6.0.1",
+    "turbo": "latest",
+    "typescript": "latest"
+  },
+  "packageManager": "pnpm@8.6.0",
+  "pnpm": {
+    "overrides": {
+      "@types/react": "^19.0.0",
+      "@types/react-dom": "^19.0.0"
+    }
+  }
+}
