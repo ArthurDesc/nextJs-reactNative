@@ -13,8 +13,12 @@
     "@prisma/client": "6.8.2"
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
+    "@types/node": "^20",
     "eslint": "^9.0.0",
-    "prisma": "6.8.2"
+    "prisma": "6.8.2",
+    "typescript": "^5.0.0"
+  },
+  "prisma": {
+    "seed": "ts-node ../../prisma/seed.ts"
   }
-} 
+}
