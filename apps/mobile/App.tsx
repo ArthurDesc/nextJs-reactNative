@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Alert, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { TextInput } from "react-native";
+import { API_CONFIG } from "./config";
 
 function RegisterForm({ onBack }: { onBack: () => void }) {
   const [name, setName] = React.useState("");
@@ -10,22 +11,42 @@ function RegisterForm({ onBack }: { onBack: () => void }) {
   const [loading, setLoading] = React.useState(false);
 
   const handleRegister = async () => {
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      Alert.alert("Erreur", "Veuillez remplir tous les champs");
+      return;
+    }
+
     setLoading(true);
     try {
-      const res = await fetch("http://192.168.1.148:3000/api/auth/register", {
+      // Utilisation de la configuration d'API au lieu de l'URL hardcodée
+      const apiUrl = process.env.EXPO_PUBLIC_API_URL || API_CONFIG.BASE_URL;
+      const url = `${apiUrl}${API_CONFIG.ENDPOINTS.REGISTER}`;
+      
+      console.log("Tentative de connexion à:", url); // Pour débugger
+      
+      const res = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), password }),
       });
+      
       const data = await res.json();
+      
       if (res.ok) {
         Alert.alert("Succès", "Inscription réussie !");
         onBack();
       } else {
         Alert.alert("Erreur", data.message || "Erreur lors de l'inscription");
       }
-    } catch (e) {
-      Alert.alert("Erreur", "Impossible de contacter le serveur");
+    } catch (error) {
+      console.error("Erreur de connexion:", error);
+      Alert.alert(
+        "Erreur de connexion", 
+        "Impossible de contacter le serveur. Vérifiez que l'API est démarrée et que l'URL est correcte."
+      );
     } finally {
       setLoading(false);
     }
@@ -40,6 +61,7 @@ function RegisterForm({ onBack }: { onBack: () => void }) {
         value={name}
         onChangeText={setName}
         autoCapitalize="words"
+        editable={!loading}
       />
       <TextInput
         style={styles.input}
@@ -48,6 +70,7 @@ function RegisterForm({ onBack }: { onBack: () => void }) {
         onChangeText={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
+        editable={!loading}
       />
       <TextInput
         style={styles.input}
@@ -55,12 +78,17 @@ function RegisterForm({ onBack }: { onBack: () => void }) {
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+        editable={!loading}
       />
-      <TouchableOpacity style={styles.button} onPress={handleRegister} disabled={loading}>
+      <TouchableOpacity 
+        style={[styles.button, loading && styles.buttonDisabled]} 
+        onPress={handleRegister} 
+        disabled={loading}
+      >
         <Text style={styles.text}>{loading ? "En cours..." : "S'inscrire"}</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={onBack} style={{ marginTop: 16 }}>
-        <Text style={{ color: '#888' }}>Retour</Text>
+      <TouchableOpacity onPress={onBack} style={{ marginTop: 16 }} disabled={loading}>
+        <Text style={{ color: loading ? '#ccc' : '#888' }}>Retour</Text>
       </TouchableOpacity>
     </View>
   );
@@ -68,6 +96,7 @@ function RegisterForm({ onBack }: { onBack: () => void }) {
 
 export default function App() {
   const [showRegister, setShowRegister] = useState(false);
+  
   return (
     <View style={styles.container}>
       {showRegister ? (
@@ -100,6 +129,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
     margin: 16,
+  },
+  buttonDisabled: {
+    backgroundColor: "#f3f4f6",
   },
   text: {
     color: "#b91c1c",
