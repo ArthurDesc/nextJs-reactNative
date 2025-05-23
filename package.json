@@ -2,7 +2,7 @@
   "name": "cineverse-monorepo",
   "private": true,
   "version": "1.0.0",
-  "description": "Monorepo for the Cineverse project",
+  "description": "Monorepo for the boilerplate project",
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",

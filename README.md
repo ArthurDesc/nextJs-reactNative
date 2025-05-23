@@ -1,6 +1,8 @@
-# Cineverse Monorepo
+# boilerplate Monorepo
 
 Ce projet est un monorepo géré avec pnpm workspaces et Turborepo.
+
+Le nom de la base de donnée est cineverse, il peut être changé
 
 ## Commandes utiles
 
@@ -65,8 +67,8 @@ Le `package.json` à la racine définit d'autres scripts utiles orchestrés par 
 
 Consultez le fichier `turbo.json` et les `package.json` des workspaces individuels pour plus de détails sur la configuration des tâches.
 
-### 4. Commandes pour le mobile
+### 5. Commandes pour le mobile
 - **Lancdr le serveur mobile :**
   ```bash
-    npx expo start
+    cd apps/mobile && npx expo start
   ```
