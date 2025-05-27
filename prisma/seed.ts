@@ -1,24 +1,38 @@
-import { PrismaClient } from '@prisma/client';
-import { hash } from 'bcryptjs';
+import { PrismaClient } from '../packages/db/generated/client';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const hashedPassword = await hash('Password1293@', 12);
+  console.log('🌱 Début du seeding...');
 
-  await prisma.user.create({
+  // Nettoyer les données existantes
+  await prisma.post.deleteMany();
+  await prisma.account.deleteMany();
+  await prisma.session.deleteMany();
+  await prisma.user.deleteMany();
+
+  // Créer un utilisateur de test
+  const hashedPassword = await bcrypt.hash('Password123@', 12);
+  
+  const testUser = await prisma.user.create({
     data: {
-      email: 'arthur.descourvieres@gmail.com',
+      name: 'admin',
+      email: 'admin@mail.com',
       hashedPassword,
     },
   });
 
-  console.log('Seed complete: User created');
+
+
+  console.log('✅ Seeding terminé avec succès !');
+  console.log(`📧 Utilisateur créé: ${testUser.email}`);
+  console.log('🔑 Mot de passe: Password123@');
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error('❌ Erreur lors du seeding:', e);
     process.exit(1);
   })
   .finally(async () => {

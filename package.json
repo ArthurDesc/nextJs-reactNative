@@ -10,10 +10,15 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "clean": "turbo run clean && rimraf .turbo",
-    "seed": "cd packages/db && pnpm exec ts-node ../../prisma/seed.ts"
+    "seed": "node prisma/seed.js",
+    "db:create": "node scripts/create-database.js",
+    "db:reset": "prisma migrate reset --force",
+    "db:migrate": "prisma migrate dev",
+    "db:setup": "pnpm db:create && pnpm db:migrate"
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/pg": "^8.15.2",
     "copyfiles": "^2.4.1",
     "prettier": "latest",
     "prisma": "^6.8.2",
@@ -30,7 +35,9 @@
     }
   },
   "dependencies": {
+    "@prisma/client": "^6.8.2",
     "@types/bcryptjs": "^3.0.0",
-    "bcryptjs": "^3.0.2"
+    "bcryptjs": "^3.0.2",
+    "pg": "^8.16.0"
   }
 }

@@ -3,7 +3,11 @@ description:
 globs: 
 alwaysApply: true
 ---
-  Ce projet est un monorepo TurboRepo/PNPM combinant :
+- Ce projet est un boiler plate pour mes futurs projets, il faut donc que toute la logique soit simple, sécurisé et réutilisable. Le tout doit être optimisé et expliqué de manière simple et courte en fichiers markdown.
+
+- Je souhaite ajouter un système d'authentification propre et réutilisable.
+  
+  Pour les technologies et la structure c'est un monorepo TurboRepo/PNPM combinant :
   - **Next.js** pour le web (App Router, SSR/SSG, API routes)  
   - **React Native** (Expo) pour le mobile  
   - Un dossier `packages/` contenant des librairies partagées :  
@@ -14,6 +18,10 @@ alwaysApply: true
   - Un workspace `apps/` avec deux sous-dossiers : `web/` et `mobile/`  
   - CI/CD via GitHub Actions, caching TurboRepo activé  
   - Versioning sémantique avec Changesets  
+
+- Suite à une modification tu dois absolument vérifier si il y a des erreurs typescript avec npx tsc --noEmit
+
+
 
 
 
